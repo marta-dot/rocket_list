@@ -39,7 +39,7 @@ function App() {
 
     return (
 
-            <Router>
+            <Router basename={"/rocket_list"}>
                 <Logo/>
                 <Routes>
 
