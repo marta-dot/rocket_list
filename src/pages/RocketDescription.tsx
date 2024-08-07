@@ -1,7 +1,7 @@
 // rocket_list/src/RocketDetail.tsx
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
-import { Rocket, RocketDetailProps } from '../components/Props.ts';
+import { Rocket, RocketDetailProps } from '../utils/Props.ts';
 
 function RocketDetail({rocketNames, rocketIds}: RocketDetailProps) {
 	const {id} = useParams<{ id: string }>(); // Get the rocket ID from the URL
