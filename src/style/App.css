@@ -1,0 +1,30 @@
+#root {
+	max-width: 1280px;
+	margin: 0 auto;
+	padding: 1rem;
+	text-align: center;
+	font-family: Bahnschrift;
+}
+
+.logo {
+	height: 2em;
+	text-align: left;
+	display: block;
+	margin-left: 0;
+}
+
+.param_container {
+	display: flex;
+	flex-wrap: wrap;
+	font-size: 20px;
+}
+
+.param {
+	display: flex;
+	border-bottom: 2px solid #bab7b7;
+	width: 45%;
+	justify-content: space-between;
+	align-items: center;
+	margin: 1.5%;
+	padding: 1%;
+}
