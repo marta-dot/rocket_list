@@ -1,9 +1,8 @@
-// rocket_list/src/RocketDetail.tsx
 import { useParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { Rocket, RocketDetailProps } from '../utils/Props.ts';
 
-function RocketDetail({rocketNames, rocketIds}: RocketDetailProps) {
+function RocketDetail({rocketNames, rocketIds,description}: RocketDetailProps) {
 	const {id} = useParams<{ id: string }>(); // Get the rocket ID from the URL
 	const index = rocketIds.indexOf(id!);
 
@@ -53,7 +52,7 @@ function RocketDetail({rocketNames, rocketIds}: RocketDetailProps) {
 			<>
 				<div>
 					<h1>{rocketNames[index]}</h1>
-					<p>{rocket.description}</p>
+					<p>{description[index]}</p>
 					<div className="param_container">
 						{parameters.map(param => (
 								<div className="param" key={param.label}>

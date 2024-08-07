@@ -1,10 +1,10 @@
 export interface RocketDetailProps {
  rocketNames: string[];
  rocketIds: string[];
+ description: string[];
 }
 
 export interface Rocket {
- description: string;
  country: string;
  height: { meters: number };
  diameter: { meters: number };

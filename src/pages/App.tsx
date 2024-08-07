@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Link, Route, Routes } from 'react-router-dom';
-// import reactLogo from './assets/react.svg'
-// import viteLogo from '/vite.svg'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import '../style/App.css'
 import RocketDescription from './RocketDescription.tsx';
 import Logo from '../components/Logo.tsx';
+import Rockets from '../components/Rockets.tsx';
 
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
 				const data = await response.json();
 				const names = data.map((rocket: { rocket_name: string }) => rocket.rocket_name);
 				const id = data.map((rocket: { rocket_id: string }) => rocket.rocket_id);
-				console.log(id);
 				const description = data.map((rocket: { description: string }) => rocket.description);
 
 				setRocketNames(names);
@@ -38,27 +36,14 @@ function App() {
 	}, []);
 
 	return (
-
 			<Router basename={"/rocket_list"}>
 				<Logo/>
 				<Routes>
-
 					<Route path="/" element={
-						<>
-
-							<h1>SpaceX rockets</h1>
-							<div>
-								{rocketNames.map((name, index) => (
-										<div key={index}>
-											<h2><Link to={`/rocket/${rocketId[index]}`}>{name}</Link></h2>
-											{description[index]}
-										</div>
-								))}
-							</div>
-						</>
+						<Rockets rocketNames={rocketNames} rocketIds={rocketId} description={description} />
 					}/>
 					<Route path="/rocket/:id" element={
-						<RocketDescription rocketNames={rocketNames} rocketIds={rocketId}/>
+						<RocketDescription rocketNames={rocketNames} rocketIds={rocketId} description={description}/>
 					}/>
 				</Routes>
 			</Router>
