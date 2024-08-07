@@ -1,49 +1,35 @@
-import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import '../style/App.css'
 import RocketDescription from './RocketDescription.tsx';
 import Logo from '../components/Logo.tsx';
 import Rockets from '../components/Rockets.tsx';
+import useSWR from 'swr';
+import { RocketDetailProps } from "../utils/Props.ts";
 
+const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 function App() {
-	const [rocketNames, setRocketNames] = useState<string[]>([]);
-	const [rocketId, setRocketId] = useState<string[]>([]);
-	const [description, setDescription] = useState<string[]>([]);
 
-
-	useEffect(() => {
-		async function fetchRocketNames() {
-			try {
-				const response = await fetch('https://api.spacexdata.com/v3/rockets');
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				const data = await response.json();
-				const names = data.map((rocket: { rocket_name: string }) => rocket.rocket_name);
-				const id = data.map((rocket: { rocket_id: string }) => rocket.rocket_id);
-				const description = data.map((rocket: { description: string }) => rocket.description);
-
-				setRocketNames(names);
-				setDescription(description);
-				setRocketId(id);
-			} catch (error) {
-				console.error('Failed to fetch rocket names:', error);
-			}
-		}
-
-		fetchRocketNames();
-	}, []);
+	const {data, error, isLoading} = useSWR(`https://api.spacexdata.com/v3/rockets`, fetcher);
+	if (error) return <div>failed to load</div>;
+	if (isLoading) return <div>loading...</div>;
+	const rocketDetails = {
+		rocketNames: data.map((rocket: any) => rocket.rocket_name),
+		rocketIds: data.map((rocket: any) => rocket.rocket_id),
+		description: data.map((rocket: any) => rocket.description),
+	} as RocketDetailProps;
 
 	return (
 			<Router basename={"/rocket_list"}>
 				<Logo/>
 				<Routes>
 					<Route path="/" element={
-						<Rockets rocketNames={rocketNames} rocketIds={rocketId} description={description} />
+						<Rockets rocketNames={rocketDetails.rocketNames} rocketIds={rocketDetails.rocketIds}
+										 description={rocketDetails.description}/>
 					}/>
 					<Route path="/rocket/:id" element={
-						<RocketDescription rocketNames={rocketNames} rocketIds={rocketId} description={description}/>
+						<RocketDescription rocketNames={rocketDetails.rocketNames} rocketIds={rocketDetails.rocketIds}
+															 description={rocketDetails.description}/>
 					}/>
 				</Routes>
 			</Router>

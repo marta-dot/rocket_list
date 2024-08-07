@@ -1,34 +1,17 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import { Rocket, RocketDetailProps } from '../utils/Props.ts';
+import useSWR from 'swr';
 
-function RocketDetail({rocketNames, rocketIds,description}: RocketDetailProps) {
+const fetcher = (url: string) => fetch(url).then(res => res.json());
+
+function RocketDetail({rocketNames, rocketIds, description}: RocketDetailProps) {
 	const {id} = useParams<{ id: string }>(); // Get the rocket ID from the URL
 	const index = rocketIds.indexOf(id!);
 
-	const [rocket, setRocket] = useState<Rocket | null>(null);
-
-	useEffect(() => {
-		if (id === undefined) {
-			console.error('Rocket ID not found');
-			return;
-		}
-
-		async function fetchRocketParam() {
-			try {
-				const response = await fetch(`https://api.spacexdata.com/v3/rockets/${id}`);
-				if (!response.ok) {
-					throw new Error('Network response was not ok');
-				}
-				const data = await response.json();
-				setRocket(data);
-			} catch (error) {
-				console.error('Failed to fetch rocket details:', error);
-			}
-		}
-
-		fetchRocketParam();
-	}, [id]);
+	const {data, error, isLoading} = useSWR(`https://api.spacexdata.com/v3/rockets/${id}`, fetcher);
+	if (error) return <div>failed to load</div>;
+	if (isLoading) return <div>loading...</div>;
+	const rocket = data as Rocket;
 
 	if (index === -1) {
 		return <div>Rocket not found</div>;
