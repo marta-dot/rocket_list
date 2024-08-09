@@ -1,8 +1,8 @@
 import { useParams } from 'react-router-dom';
-import { Rocket, RocketDetailProps } from '../utils/Props.ts';
 import useSWR from 'swr';
+import fetcher from "../utils/fetcher.ts";
+import { Rocket, RocketDetailProps } from '../utils/types.ts';
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 function RocketDetail({rocketNames, rocketIds, description}: RocketDetailProps) {
 	const {id} = useParams<{ id: string }>(); // Get the rocket ID from the URL
@@ -32,19 +32,19 @@ function RocketDetail({rocketNames, rocketIds, description}: RocketDetailProps) 
 	];
 
 	return (
-			<>
-				<div>
-					<h1>{rocketNames[index]}</h1>
-					<p>{description[index]}</p>
-					<div className="param_container">
-						{parameters.map(param => (
-								<div className="param" key={param.label}>
-									<span>{param.label}</span> <span>{param.value}</span>
-								</div>
-						))}
-					</div>
+		<>
+			<div>
+				<h1>{rocketNames[index]}</h1>
+				<p>{description[index]}</p>
+				<div className="param_container">
+					{parameters.map(param => (
+						<div className="param" key={param.label}>
+							<span>{param.label}</span> <span>{param.value}</span>
+						</div>
+					))}
 				</div>
-			</>
+			</div>
+		</>
 	);
 
 }

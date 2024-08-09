@@ -1,12 +1,12 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import '../style/App.css'
-import RocketDescription from './RocketDescription.tsx';
-import Logo from '../components/Logo.tsx';
-import Rockets from '../components/Rockets.tsx';
 import useSWR from 'swr';
-import { RocketDetailProps } from "../utils/Props.ts";
+import Logo from '../components/Logo.tsx';
+import fetcher from '../utils/fetcher.ts';
+import Rockets from '../components/Rockets.tsx';
+import { RocketDetailProps } from "../utils/types.ts";
+import RocketDescription from './RocketDescription.tsx';
+import '../style/app.css'
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
 
 function App() {
 
@@ -20,19 +20,19 @@ function App() {
 	} as RocketDetailProps;
 
 	return (
-			<Router basename={"/rocket_list"}>
-				<Logo/>
-				<Routes>
-					<Route path="/" element={
-						<Rockets rocketNames={rocketDetails.rocketNames} rocketIds={rocketDetails.rocketIds}
-										 description={rocketDetails.description}/>
-					}/>
-					<Route path="/rocket/:id" element={
-						<RocketDescription rocketNames={rocketDetails.rocketNames} rocketIds={rocketDetails.rocketIds}
-															 description={rocketDetails.description}/>
-					}/>
-				</Routes>
-			</Router>
+		<Router basename="/rocket_list">
+			<Logo/>
+			<Routes>
+				<Route path="/" element={
+					<Rockets rocketNames={rocketDetails.rocketNames} rocketIds={rocketDetails.rocketIds}
+							 description={rocketDetails.description}/>
+				}/>
+				<Route path="/rocket/:id" element={
+					<RocketDescription rocketNames={rocketDetails.rocketNames} rocketIds={rocketDetails.rocketIds}
+									   description={rocketDetails.description}/>
+				}/>
+			</Routes>
+		</Router>
 	)
 }
 
