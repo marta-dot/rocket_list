@@ -1,21 +1,10 @@
 import { useParams } from 'react-router-dom';
-import useSWR from 'swr';
-import fetcher from "../utils/fetcher.ts";
-import { Rocket, RocketDetailProps } from '../utils/types.ts';
+import { RocketDetailProps } from '../utils/types.ts';
 
 
-function RocketDetail({rocketNames, rocketIds, description}: RocketDetailProps) {
+function RocketDetail({rockets}: RocketDetailProps) {
 	const {id} = useParams<{ id: string }>(); // Get the rocket ID from the URL
-	const index = rocketIds.indexOf(id!);
-
-	const {data, error, isLoading} = useSWR(`https://api.spacexdata.com/v3/rockets/${id}`, fetcher);
-	if (error) return <div>failed to load</div>;
-	if (isLoading) return <div>loading...</div>;
-	const rocket = data as Rocket;
-
-	if (index === -1) {
-		return <div>Rocket not found</div>;
-	}
+	const rocket = rockets.find(rocket => rocket.rocket_id === id); // Find the rocket in the list
 
 	if (!rocket) {
 		return <div>Loading...</div>;
@@ -34,8 +23,8 @@ function RocketDetail({rocketNames, rocketIds, description}: RocketDetailProps) 
 	return (
 		<>
 			<div>
-				<h1>{rocketNames[index]}</h1>
-				<p>{description[index]}</p>
+				<h1>{rocket.rocket_name}</h1>
+				<p>{rocket.description}</p>
 				<div className="param_container">
 					{parameters.map(param => (
 						<div className="param" key={param.label}>
