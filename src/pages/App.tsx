@@ -4,7 +4,7 @@ import Logo from '../components/Logo.tsx';
 import fetcher from '../utils/fetcher.ts';
 import Rockets from '../components/Rockets.tsx';
 import RocketDescription from './RocketDescription.tsx';
-import '../style/app.css'
+import '../style/app.css';
 
 
 function App() {
@@ -17,11 +17,11 @@ function App() {
 		<Router basename="/rocket_list">
 			<Logo/>
 			<Routes>
-				<Route path="/" element={<Rockets rockets={data} />} />
-				<Route path="/rocket/:id" element={<RocketDescription rockets={data} />} />
+				<Route path="/" element={<Rockets rockets={data}/>}/>
+				<Route path="/rocket/:id" element={<RocketDescription rockets={data}/>}/>
 			</Routes>
 		</Router>
-	)
+	);
 }
 
-export default App
+export default App;

@@ -23,5 +23,6 @@ module.exports = {
                 "groups": ["builtin", "external", "internal", "parent", "sibling", "index", "object", "type"]
             },
         ],
+        'semi': ['error', 'always'],
     },
 }

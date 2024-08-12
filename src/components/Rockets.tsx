@@ -10,13 +10,15 @@ function Rockets({rockets}: RocketDetailProps) {
 			<div>
 				{rockets.map((rocket, index) => (
 					<div key={index}>
-						<h2><Link to={`/rocket/${rocket.rocket_id}`}>{rocket.rocket_name}</Link></h2>
+						<h2>
+							<Link to={`/rocket/${rocket.rocket_id}`}>{rocket.rocket_name}</Link>
+						</h2>
 						{rocket.description}
 					</div>
 				))}
 			</div>
 		</>
-	)
+	);
 }
 
 export default Rockets;

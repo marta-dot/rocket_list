@@ -35,7 +35,6 @@ function RocketDetail({rockets}: RocketDetailProps) {
 			</div>
 		</>
 	);
-
 }
 
 export default RocketDetail;
